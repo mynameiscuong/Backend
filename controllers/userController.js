@@ -141,15 +141,11 @@ exports.generateZegoToken = catchAsync(async (req, res, next) => {
 });
 
 exports.startAudioCall = catchAsync(async (req, res, next) => {
-  // console.log(req.body)
-  // console.log(req.user)
+
   const from = req.user._id;
   const to = req.body.id;
 
-  // console.log("from",from)
-  // console.log("to",to)
   const from_user = await User.findById(from);
-  // console.log("from_user",from_user)
   const to_user = await User.findById(to);
   // create a new call audioCall Doc and send required data to client
   const new_audio_call = await AudioCall.create({
@@ -159,7 +155,7 @@ exports.startAudioCall = catchAsync(async (req, res, next) => {
     status: "Ongoing",
   });
 
-  console.log("newaudiocall",new_audio_call)
+  // console.log("newaudiocall",new_audio_call)
 
   res.status(200).json({
     data: {
@@ -200,7 +196,6 @@ exports.startVideoCall = catchAsync(async (req, res, next) => {
 
 exports.getCallLogs = catchAsync(async (req, res, next) => {
   const user_id = req.user._id;
-  console.log("getcalllogs userid:",user_id);
 
   const call_logs = [];
 

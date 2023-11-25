@@ -317,13 +317,24 @@ io.on("connection", async (socket) => {
     const { to, from } = data;
 
     const to_user = await User.findById(to);
-
-    await AudioCall.findOneAndUpdate(
-      {
-        participants: { $size: 2, $all: [to, from] },
-      },
-      { verdict: "Missed", status: "Ended", endedAt: Date.now() }
-    );
+    try {
+      await AudioCall.findOneAndUpdate(
+        {
+          participants: { $size: 2, $all: [to, from] },
+        },
+        { verdict: "Missed", status: "Ended", endedAt: Date.now() },
+        {new: true},
+        (err, updateAudioCall) => {
+          if(err){
+            console.log(err);
+          } else {
+            console.log(updateAudioCall);
+          }
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
 
     // TODO => emit call_missed to receiver of call
     io.to(to_user?.socket_id).emit("audio_call_missed", {
@@ -339,17 +350,29 @@ io.on("connection", async (socket) => {
     const from_user = await User.findById(from);
 
     // find and update call record
-    await AudioCall.findOneAndUpdate(
-      {
-        participants: { $size: 2, $all: [to, from] },
-      },
-      { verdict: "Accepted" }
-    );
+    try {
+      await AudioCall.findOneAndUpdate(
+        {
+          participants: { $size: 2, $all: [to, from] },
+        },
+        { verdict: "Accepted" },
+        {new: true},
+        (err, updateAudioCall) => {
+          if(err){
+            console.log(err);
+          } else {
+            console.log(updateAudioCall);
+          }
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
 
     // TODO => emit call_accepted to sender of call
     io.to(from_user?.socket_id).emit("audio_call_accepted", {
-      from,
-      to,
+      from: from_user,
+      to: to,
     });
   });
 
