@@ -117,7 +117,7 @@ exports.generateZegoToken = catchAsync(async (req, res, next) => {
       // The token generated in this example allows publishStream (push stream) action
       privilege: {
         1: 1, // loginRoom: 1 pass , 0 not pass
-        2: 1, // publishStream: 1 pass , 0 not pass
+        2: 0, // publishStream: 1 pass , 0 not pass
       },
       stream_id_list: null,
     }; //
