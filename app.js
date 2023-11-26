@@ -66,7 +66,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Returns middleware that o
 app.use(
   session({
     secret: "keyboard cat",
-    proxy: false,
+    proxy: true,
     resave: true,
     saveUnintialized: true,
     cookie: {
