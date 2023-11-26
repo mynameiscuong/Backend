@@ -159,7 +159,8 @@ exports.startAudioCall = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     data: {
-      from: to_user,
+      to:to_user,
+      from: from_user,
       roomID: new_audio_call._id,
       streamID: to,
       userID: from,
@@ -185,7 +186,8 @@ exports.startVideoCall = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     data: {
-      from: to_user,
+      to:to_user,
+      from: from_user,
       roomID: new_video_call._id,
       streamID: to,
       userID: from,
@@ -220,7 +222,7 @@ exports.getCallLogs = catchAsync(async (req, res, next) => {
       // outgoing
       call_logs.push({
         id: elm._id,
-        // img: other_user.avatar,
+        img: other_user.avatar,
         name: other_user.firstName,
         online: true,
         incoming: false,
